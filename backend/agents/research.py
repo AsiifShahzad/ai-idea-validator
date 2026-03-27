@@ -4,6 +4,7 @@ Runs only the tools in state.tools_assigned — nothing else.
 Each idea type gets a different tool set from TOOLS_MAPPING.
 """
 import asyncio
+import concurrent.futures
 import nest_asyncio
 from backend.schemas.models import IdeaValidationState
 
@@ -41,7 +42,12 @@ async def run_tool(tool_name: str, idea: str) -> tuple[str, any]:
         print(f"[research] ⚠ Unknown tool '{tool_name}' — skipping")
         return tool_name, {}
     try:
-        loop   = asyncio.get_event_loop()
+        # Use get_running_loop() since we're in an async context
+        try:
+            loop = asyncio.get_running_loop()
+        except RuntimeError:
+            loop = asyncio.get_event_loop()
+        
         result = await loop.run_in_executor(None, fn, idea)
         # Treat empty results explicitly
         if not result:
@@ -64,8 +70,22 @@ def research_node(state: IdeaValidationState) -> dict:
     tools = state["tools_assigned"]
     print(f"\n[research] idea_type={state['idea_type']} → running tools: {tools}")
 
-    loop          = asyncio.get_event_loop()
-    research_data = loop.run_until_complete(run_all_tools(tools, state["idea"]))
+    try:
+        # Check if we're in an existing event loop
+        loop = asyncio.get_running_loop()
+        # If yes, we can't use run_until_complete here
+        # Instead, return the coroutine to be awaited by the caller
+        print("[research] ⚠ Running in existing event loop, using threaded executor")
+        import concurrent.futures
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            future = executor.submit(lambda: asyncio.run(run_all_tools(tools, state["idea"])))
+            research_data = future.result()
+    except RuntimeError:
+        # No event loop running, safe to create one
+        research_data = asyncio.run(run_all_tools(tools, state["idea"]))
+    except Exception as e:
+        print(f"[research] ❌ Error: {e}")
+        research_data = {}
 
     # Log what came back vs what was empty
     for tool in tools:
