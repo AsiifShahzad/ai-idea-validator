@@ -39,7 +39,7 @@ export default function ComparisonView({ results }) {
         color: '#60a5fa', fontSize: '14px',
         fontFamily: "'DM Mono', monospace",
       }}>
-        ℹ Validate at least 2 ideas to enable comparison.
+        Validate at least 2 ideas of same type to enable comparison.
       </div>
     );
   }
