@@ -3,17 +3,52 @@ import { useEffect, useState, useRef } from 'react';
 const API_BASE = 'https://ideavalidator-8h1j.onrender.com';
 
 const AGENT_STEPS = [
-  { id: 'classifier',          label: 'Classifier',    desc: 'Detecting idea type & assigning tools' },
-  { id: 'research',            label: 'Research',      desc: 'Gathering data from external sources' },
-  { id: 'demand_analyst',      label: 'Demand',        desc: 'Estimating market demand signals' },
-  { id: 'competition_analyst', label: 'Competition',   desc: 'Mapping the competitive landscape' },
-  { id: 'risk_analyst',        label: 'Risk',          desc: 'Identifying top failure risks' },
-  { id: 'decision',            label: 'Decision',      desc: 'Synthesizing final verdict' },
-  { id: 'reflection',          label: 'Reflection',    desc: 'Auditing analysis quality' },
+  { 
+    id: 'classifier',
+    label: 'Classifier',
+    desc: 'Analyzing your idea and determining its category',
+    details: 'Understanding if this is a business idea, dev project, research topic, content, product, or social impact initiative'
+  },
+  { 
+    id: 'research',
+    label: 'Research',
+    desc: 'Gathering intelligence from multiple sources',
+    details: 'Searching Reddit discussions, GitHub repositories, Google Trends, arXiv papers, news sites, and Product Hunt for related ideas'
+  },
+  { 
+    id: 'demand_analyst',
+    label: 'Demand Analysis',
+    desc: 'Evaluating market demand and interest',
+    details: 'Analyzing search trends and social mentions to assess how many people are interested in this idea'
+  },
+  { 
+    id: 'competition_analyst',
+    label: 'Competition Analysis',
+    desc: 'Mapping existing solutions and competitors',
+    details: 'Identifying similar existing projects and understanding the current competitive landscape'
+  },
+  { 
+    id: 'risk_analyst',
+    label: 'Risk Analysis',
+    desc: 'Identifying potential failures and challenges',
+    details: 'Evaluating technical, market, financial, and execution risks specific to your idea'
+  },
+  { 
+    id: 'decision',
+    label: 'Decision Engine',
+    desc: 'Synthesizing all insights into a verdict',
+    details: 'Combining all data points to generate a GO/MAYBE/NO-GO recommendation with confidence'
+  },
+  { 
+    id: 'reflection',
+    label: 'Quality Audit',
+    desc: 'Verifying analysis completeness',
+    details: 'Conducting a final review to ensure all factors were considered and results are reliable'
+  },
 ];
 
 export default function AgentProgress({ idea, onComplete }) {
-  const [stepStatus, setStepStatus] = useState({});  // { agentId: 'pending' | 'running' | 'complete' | 'error' }
+  const [stepStatus, setStepStatus] = useState({});
   const [durations, setDurations]   = useState({});
   const [error, setError]           = useState('');
   const [done, setDone]             = useState(false);
@@ -23,12 +58,10 @@ export default function AgentProgress({ idea, onComplete }) {
   useEffect(() => {
     if (!idea) return;
 
-    // Mark all steps as pending
     const initial = {};
     AGENT_STEPS.forEach(s => { initial[s.id] = 'pending'; });
     setStepStatus(initial);
 
-    // Open SSE connection
     const encoded = encodeURIComponent(idea);
     const es      = new EventSource(`${API_BASE}/validate-idea/stream?idea=${encoded}`);
     esRef.current = es;
@@ -42,7 +75,6 @@ export default function AgentProgress({ idea, onComplete }) {
 
         if (status === 'complete') {
           if (agent === 'pipeline') {
-            // Pipeline done — fetch full result
             setDone(true);
             fetch(`${API_BASE}/validate-idea`, {
               method:  'POST',
@@ -59,7 +91,6 @@ export default function AgentProgress({ idea, onComplete }) {
           setStepStatus(prev => ({ ...prev, [agent]: 'complete' }));
           setDurations(prev => ({ ...prev, [agent]: duration_ms || 0 }));
 
-          // Mark next step as running
           const idx = AGENT_STEPS.findIndex(s => s.id === agent);
           if (idx >= 0 && idx + 1 < AGENT_STEPS.length) {
             setStepStatus(prev => ({ ...prev, [AGENT_STEPS[idx + 1].id]: 'running' }));
@@ -70,7 +101,6 @@ export default function AgentProgress({ idea, onComplete }) {
           setError(data.error || 'Pipeline error');
           es.close();
         }
-
       } catch {}
     };
 
@@ -79,7 +109,6 @@ export default function AgentProgress({ idea, onComplete }) {
       es.close();
     };
 
-    // Mark first step as running
     setStepStatus(prev => ({ ...prev, classifier: 'running' }));
 
     return () => es.close();
@@ -98,16 +127,16 @@ export default function AgentProgress({ idea, onComplete }) {
   }
 
   return (
-    <div style={{ width: '100%', maxWidth: '560px', margin: '0 auto' }}>
+    <div style={{ width: '100%' }}>
       <div style={{
         fontSize: '11px', fontWeight: '700', letterSpacing: '0.12em',
-        textTransform: 'uppercase', color: '#4f6482',
+        textTransform: 'uppercase', color: '#06b6d4',
         marginBottom: '24px', fontFamily: "'DM Mono', monospace",
       }}>
-        Pipeline Running
+        ⚡ Pipeline Running
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
         {AGENT_STEPS.map((step, i) => {
           const status = stepStatus[step.id] || 'pending';
           const isRunning  = status === 'running';
@@ -116,70 +145,134 @@ export default function AgentProgress({ idea, onComplete }) {
 
           return (
             <div key={step.id} style={{
-              display:      'flex',
-              alignItems:   'center',
-              gap:          '14px',
-              padding:      '12px 16px',
-              borderRadius: '8px',
-              background:   isRunning ? 'rgba(251,191,36,0.06)' : isComplete ? 'rgba(52,211,153,0.04)' : 'transparent',
-              border:       `1px solid ${isRunning ? 'rgba(251,191,36,0.2)' : isComplete ? 'rgba(52,211,153,0.1)' : 'transparent'}`,
+              padding:      '16px',
+              borderRadius: '10px',
+              background:   isRunning ? 'rgba(6,182,212,0.08)' : isComplete ? 'rgba(52,211,153,0.04)' : 'rgba(15,23,42,0.5)',
+              border:       `1px solid ${isRunning ? 'rgba(6,182,212,0.3)' : isComplete ? 'rgba(52,211,153,0.2)' : 'rgba(30,41,59,0.5)'}`,
               transition:   'all 0.3s ease',
+              animation:    isRunning ? 'slideIn 0.4s ease-out' : 'none',
+              transform:    isRunning ? 'translateX(0)' : 'translateX(0)',
             }}>
-              {/* Status dot */}
+              {/* Top row with status and label */}
               <div style={{
-                flexShrink: 0,
-                width:  '28px', height: '28px',
-                borderRadius: '50%',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: '12px',
-                background: isComplete ? 'rgba(52,211,153,0.15)'
-                           : isRunning  ? 'rgba(6,182,212,0.15)'
-                           : '#1e293b',
-              border: `1px solid ${isComplete ? 'rgba(52,211,153,0.4)' : isRunning ? 'rgba(6,182,212,0.4)' : '#334155'}`,
-              color: isComplete ? '#34d399' : isRunning ? '#06b6d4' : '#4f6482',
-                animation: isRunning ? 'pulse 1.5s ease-in-out infinite' : 'none',
+                display:      'flex',
+                alignItems:   'center',
+                gap:          '12px',
+                marginBottom: '8px',
               }}>
-                {isComplete ? '✓' : isRunning ? '◉' : String(i + 1).padStart(2, '0')}
-              </div>
-
-              {/* Label & desc */}
-              <div style={{ flex: 1 }}>
+                {/* Status indicator */}
                 <div style={{
-                  fontSize:   '13px',
-                  fontWeight: '600',
-                  color:      isComplete ? '#94a3b8' : isRunning ? '#f8fafc' : '#4f6482',
+                  flexShrink: 0,
+                  width:  '32px', height: '32px',
+                  borderRadius: '50%',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: '14px', fontWeight: '700',
+                  background: isComplete ? 'rgba(52,211,153,0.2)'
+                             : isRunning  ? 'rgba(6,182,212,0.2)'
+                             : 'rgba(79,100,130,0.15)',
+                  border: `2px solid ${isComplete ? '#34d399' : isRunning ? '#06b6d4' : '#4f6482'}`,
+                  color: isComplete ? '#34d399' : isRunning ? '#06b6d4' : '#4f6482',
+                  animation: isRunning ? 'pulse 1.5s ease-in-out infinite' : 'none',
                   fontFamily: "'DM Mono', monospace",
-                  transition: 'color 0.3s',
                 }}>
-                  {step.label}
+                  {isComplete ? '✓' : isRunning ? '⚙' : String(i + 1).padStart(2, '0')}
                 </div>
-                {isRunning && (
-                  <div style={{ fontSize: '11px', color: '#06b6d4', marginTop: '1px' }}>
+
+                {/* Main label */}
+                <div style={{ flex: 1 }}>
+                  <div style={{
+                    fontSize:   '14px',
+                    fontWeight: '700',
+                    color:      isComplete ? '#94a3b8' : isRunning ? '#f8fafc' : '#4f6482',
+                    fontFamily: "'DM Mono', monospace",
+                    letterSpacing: '0.05em',
+                    textTransform: 'uppercase',
+                    transition: 'color 0.3s',
+                  }}>
+                    {step.label}
+                  </div>
+                  <div style={{
+                    fontSize:   '12px',
+                    color:      isComplete ? '#4f6482' : isRunning ? '#06b6d4' : '#4f6482',
+                    marginTop:  '2px',
+                    transition: 'all 0.3s',
+                  }}>
                     {step.desc}
+                  </div>
+                </div>
+
+                {/* Duration badge */}
+                {isComplete && durations[step.id] > 0 && (
+                  <div style={{
+                    flexShrink: 0,
+                    fontSize: '10px', 
+                    color: '#4f6482',
+                    fontFamily: "'DM Mono', monospace",
+                    background: 'rgba(79,100,130,0.1)',
+                    padding: '4px 8px',
+                    borderRadius: '4px',
+                  }}>
+                    {durations[step.id]}ms
                   </div>
                 )}
               </div>
 
-              {/* Duration */}
-              {isComplete && durations[step.id] > 0 && (
+              {/* Expanded details when running or complete */}
+              {(isRunning || isComplete) && (
                 <div style={{
-                  fontSize: '10px', color: '#4f6482',
-                  fontFamily: "'DM Mono', monospace",
+                  marginTop: '12px',
+                  paddingTop: '12px',
+                  borderTop: '1px solid rgba(79,100,130,0.2)',
+                  animation: 'expandIn 0.4s ease-out',
                 }}>
-                  {durations[step.id]}ms
+                  <div style={{
+                    fontSize: '12px',
+                    color: '#a5b4fc',
+                    lineHeight: '1.6',
+                  }}>
+                    {step.details}
+                  </div>
+                  
+                  {/* Show tools for research step */}
+                  {step.id === 'research' && isRunning && (
+                    <div style={{
+                      marginTop: '10px',
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      gap: '6px',
+                    }}>
+                      {['🔍 Web Search', '📰 News', '💬 Reddit', '📈 Trends', '📄 Papers', '💼 GitHub'].map((tool, j) => (
+                        <div key={j} style={{
+                          fontSize: '11px',
+                          padding: '4px 8px',
+                          borderRadius: '4px',
+                          background: 'rgba(6,182,212,0.15)',
+                          border: '1px solid rgba(6,182,212,0.2)',
+                          color: '#06b6d4',
+                          animation: `bounce ${0.6 + j * 0.1}s ease-in-out infinite`,
+                        }}>
+                          {tool}
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
 
-              {/* Running spinner bar */}
+              {/* Progress bar for running step */}
               {isRunning && (
                 <div style={{
-                  width: '40px', height: '3px',
-                  borderRadius: '2px', background: '#1e293b', overflow: 'hidden',
+                  marginTop: '12px',
+                  height: '3px',
+                  borderRadius: '2px',
+                  background: 'rgba(6,182,212,0.1)',
+                  overflow: 'hidden',
                 }}>
                   <div style={{
-                    height: '100%', width: '40%',
-                    background: '#06b6d4', borderRadius: '2px',
-                    animation: 'slide 1s ease-in-out infinite alternate',
+                    height: '100%',
+                    background: 'linear-gradient(90deg, #06b6d4, #00d9ff, #06b6d4)',
+                    borderRadius: '2px',
+                    animation: 'slide 1.5s ease-in-out infinite',
                   }} />
                 </div>
               )}
@@ -190,19 +283,44 @@ export default function AgentProgress({ idea, onComplete }) {
 
       {done && (
         <div style={{
-          marginTop: '20px', padding: '12px 16px',
-          borderRadius: '8px', background: 'rgba(52,211,153,0.08)',
-          border: '1px solid rgba(52,211,153,0.2)',
-          color: '#34d399', fontSize: '13px', textAlign: 'center',
+          marginTop: '24px', 
+          padding: '16px',
+          borderRadius: '10px', 
+          background: 'rgba(52,211,153,0.1)',
+          border: '1px solid rgba(52,211,153,0.3)',
+          color: '#34d399', 
+          fontSize: '13px', 
+          textAlign: 'center',
           fontFamily: "'DM Mono', monospace",
+          fontWeight: '600',
+          animation: 'slideIn 0.5s ease-out',
         }}>
-          ✓ Analysis complete — loading results...
+          ✓ Analysis Complete • Loading Results...
         </div>
       )}
 
       <style>{`
-        @keyframes pulse { 0%,100% { opacity:1 } 50% { opacity:0.4 } }
-        @keyframes slide { from { transform: translateX(-100%) } to { transform: translateX(250%) } }
+        @keyframes pulse {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.6; transform: scale(1.05); }
+        }
+        @keyframes slide {
+          0% { transform: translateX(-100%); }
+          50% { transform: translateX(100%); }
+          100% { transform: translateX(-100%); }
+        }
+        @keyframes slideIn {
+          from { opacity: 0; transform: translateX(-20px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes expandIn {
+          from { opacity: 0; max-height: 0; }
+          to { opacity: 1; max-height: 200px; }
+        }
+        @keyframes bounce {
+          0%, 100% { transform: translateY(0); opacity: 1; }
+          50% { transform: translateY(-4px); opacity: 0.8; }
+        }
       `}</style>
     </div>
   );
