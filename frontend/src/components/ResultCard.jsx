@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { FiTrendingUp, FiSwords, FiAlertTriangle, FiArrowRight } from 'react-icons/fi';
+import { FiTrendingUp, FiTarget, FiAlertTriangle, FiArrowRight } from 'react-icons/fi';
 import FactorsCard   from './FactorsCard';
 import ToolsUsed     from './ToolsUsed';
 
@@ -238,7 +238,7 @@ export default function ResultCard({ result }) {
         gap:'8px' 
       }}>
         <MetricCard label="Demand"      value={demand.level      || 'medium'} why={result.demand_why}      color="#34d399" icon={<FiTrendingUp size={isMobile ? 14 : 16} color="#06b6d4" />} isMobile={isMobile} />
-        <MetricCard label="Competition" value={competition.level || 'medium'} why={result.competition_why} color="#fb7185" icon={<FiSwords size={isMobile ? 14 : 16} color="#06b6d4" />} isMobile={isMobile} />
+        <MetricCard label="Competition" value={competition.level || 'medium'} why={result.competition_why} color="#fb7185" icon={<FiTarget size={isMobile ? 14 : 16} color="#06b6d4" />} isMobile={isMobile} />
         <MetricCard label="Risk"        value={['high','medium','low'].includes(risk.level) ? risk.level : 'medium'}        why={result.risk_why}        color="#f97316" icon={<FiAlertTriangle size={isMobile ? 14 : 16} color="#06b6d4" />} isMobile={isMobile} />
       </div>
 
