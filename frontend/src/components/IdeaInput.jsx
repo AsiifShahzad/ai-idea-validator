@@ -71,7 +71,7 @@ export default function IdeaInput({ onSubmit }) {
 
       {/* Example prompts */}
       <div>
-        <div style={{ fontSize: '11px', color: '#4f6482', fontFamily: "'DM Mono', monospace", marginBottom: '8px', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+        <div style={{ fontSize: '11px', color: '#ffffff', fontFamily: "'DM Mono', monospace", marginBottom: '8px', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
           Try an example
         </div>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>

@@ -23,7 +23,7 @@ export default function FactorsCard({ successFactors = [], failureReasons = [], 
           }}>✓</span>
           <span style={{
             fontSize: isMobile ? '9px' : '11px', fontWeight: '700', letterSpacing: '0.1em',
-            textTransform: 'uppercase', color: '#34d399', fontFamily: "'DM Mono', monospace",
+            textTransform: 'uppercase', color: '#ffffff', fontFamily: "'DM Mono', monospace",
             wordBreak: 'break-word', maxWidth: '100%',
           }}>Why It Could Succeed</span>
         </div>
@@ -60,7 +60,7 @@ export default function FactorsCard({ successFactors = [], failureReasons = [], 
           }}>✕</span>
           <span style={{
             fontSize: isMobile ? '9px' : '11px', fontWeight: '700', letterSpacing: '0.1em',
-            textTransform: 'uppercase', color: '#fb7185', fontFamily: "'DM Mono', monospace",
+            textTransform: 'uppercase', color: '#ffffff', fontFamily: "'DM Mono', monospace",
             wordBreak: 'break-word', maxWidth: '100%',
           }}>Why It Could Fail</span>
         </div>

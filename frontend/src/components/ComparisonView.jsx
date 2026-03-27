@@ -53,7 +53,7 @@ export default function ComparisonView({ results }) {
           <h2 style={{ fontSize: '22px', fontWeight: '800', color: '#f8fafc', margin: 0, fontFamily: "'DM Mono', monospace" }}>
             Compare Ideas
           </h2>
-          <p style={{ color: '#4f6482', fontSize: '13px', marginTop: '4px' }}>
+          <p style={{ color: '#ffffff', fontSize: '13px', marginTop: '4px' }}>
             Filter by type to compare apples to apples
           </p>
         </div>

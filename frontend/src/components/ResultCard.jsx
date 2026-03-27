@@ -46,7 +46,7 @@ function MetricCard({ label, value, why, color, icon, isMobile }) {
       <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom: levelNum !== null ? '10px' : 0 }}>
         <div style={{ display:'flex', alignItems:'center', gap: isMobile ? '6px' : '8px' }}>
           <span style={{ fontSize: isMobile ? '14px' : '16px' }}>{icon}</span>
-          <span style={{ fontSize: isMobile ? '9px' : '11px', fontWeight:'700', letterSpacing:'0.08em', textTransform:'uppercase', color:'#4f6482', fontFamily:"'DM Mono',monospace" }}>{label}</span>
+          <span style={{ fontSize: isMobile ? '9px' : '11px', fontWeight:'700', letterSpacing:'0.08em', textTransform:'uppercase', color:'#ffffff', fontFamily:"'DM Mono',monospace" }}>{label}</span>
         </div>
         <div style={{ display:'flex', alignItems:'center', gap: isMobile ? '6px' : '8px' }}>
           <span style={{ fontSize: isMobile ? '11px' : '13px', fontWeight:'700', color, fontFamily:"'DM Mono',monospace" }}>{displayVal}</span>
@@ -79,7 +79,7 @@ function NextSteps({ steps = [], isMobile }) {
   if (!steps.length) return null;
   return (
       <div style={{ padding: isMobile ? '16px' : '20px', borderRadius:'12px', background:'rgba(6,182,212,0.04)', border:'1px solid rgba(6,182,212,0.15)' }}>
-      <div style={{ fontSize: isMobile ? '10px' : '11px', fontWeight:'700', letterSpacing:'0.1em', textTransform:'uppercase', color:'#06b6d4', marginBottom:'14px', fontFamily:"'DM Mono',monospace", wordBreak: 'break-word', maxWidth: '100%' }}>
+      <div style={{ fontSize: isMobile ? '10px' : '11px', fontWeight:'700', letterSpacing:'0.1em', textTransform:'uppercase', color:'#ffffff', marginBottom:'14px', fontFamily:"'DM Mono',monospace", wordBreak: 'break-word', maxWidth: '100%' }}>
         ⚡ What To Do Next
       </div>
       <div style={{ display:'flex', flexDirection:'column', gap:'10px' }}>
