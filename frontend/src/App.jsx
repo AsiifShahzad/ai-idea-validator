@@ -194,9 +194,9 @@ function App() {
             <button key={item.id} onClick={() => setView(item.id)} style={{
               padding:    '9px 12px',
               borderRadius:'7px',
-              background: view === item.id || item.id === 'input' ? 'rgba(6,182,212,0.1)' : 'transparent',
-              border:     `1px solid ${view === item.id || item.id === 'input' ? 'rgba(6,182,212,0.2)' : 'transparent'}`,
-              color:      view === item.id || item.id === 'input' ? '#06b6d4' : '#4f6482',
+              background: view === item.id || item.id === 'input' || item.id === 'compare' ? 'rgba(6,182,212,0.1)' : 'transparent',
+              border:     `1px solid ${view === item.id || item.id === 'input' || item.id === 'compare' ? 'rgba(6,182,212,0.2)' : 'transparent'}`,
+              color:      view === item.id || item.id === 'input' || item.id === 'compare' ? '#06b6d4' : '#4f6482',
               fontSize:   '13px',
               fontWeight: '600',
               cursor:     'pointer',
@@ -207,7 +207,7 @@ function App() {
               transition: 'all 0.15s',
               fontFamily: "'DM Mono', monospace",
             }}>
-              <span style={{ display: 'flex', color: view === item.id || item.id === 'input' ? '#06b6d4' : '#4f6482' }}>{item.icon}</span>
+              <span style={{ display: 'flex', color: view === item.id || item.id === 'input' || item.id === 'compare' ? '#06b6d4' : '#4f6482' }}>{item.icon}</span>
               {item.label}
             </button>
           ))}
