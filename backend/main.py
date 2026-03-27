@@ -153,7 +153,7 @@ async def validate_idea(request: IdeaRequest):
 async def validate_idea_stream(idea: str):
     """
     Stream agent progress via Server-Sent Events.
-    Each event: {agent, status, duration_ms}
+    Each event: {agent, status, duration_ms, tools_assigned (optional)}
     Frontend listens with EventSource API.
     """
     async def event_generator():
@@ -181,11 +181,17 @@ async def validate_idea_stream(idea: str):
             for chunk in pipeline.stream(state, stream_mode="updates"):
                 for node_name, node_output in chunk.items():
                     duration_ms = timings.get(node_name, 0)
-                    event = json.dumps({
+                    event_data = {
                         "agent":       node_name,
                         "status":      "complete",
                         "duration_ms": duration_ms,
-                    })
+                    }
+                    
+                    # Include tools_assigned when classifier completes
+                    if node_name == "classifier" and "tools_assigned" in state:
+                        event_data["tools_assigned"] = state.get("tools_assigned", [])
+                    
+                    event = json.dumps(event_data)
                     yield f"data: {event}\n\n"
                     await asyncio.sleep(0)   # yield control to event loop
 

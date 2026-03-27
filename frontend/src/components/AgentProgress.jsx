@@ -2,6 +2,17 @@ import { useEffect, useState, useRef } from 'react';
 
 const API_BASE = 'https://ideavalidator-8h1j.onrender.com';
 
+// Tool descriptions
+const TOOL_DESCRIPTIONS = {
+  tavily: { emoji: '🔍', name: 'Web Search', desc: 'Searching the web for relevant discussions and articles' },
+  github: { emoji: '💼', name: 'GitHub', desc: 'Finding similar repositories and project activity' },
+  google_trends: { emoji: '📈', name: 'Google Trends', desc: 'Analyzing search interest trends over time' },
+  arxiv: { emoji: '📄', name: 'Research Papers', desc: 'Searching academic papers and studies' },
+  reddit: { emoji: '💬', name: 'Reddit', desc: 'Finding community discussions and feedback' },
+  product_hunt: { emoji: '🚀', name: 'Product Hunt', desc: 'Checking similar product launches' },
+  news: { emoji: '📰', name: 'News', desc: 'Finding recent news coverage' },
+};
+
 const AGENT_STEPS = [
   { 
     id: 'classifier',
@@ -13,7 +24,7 @@ const AGENT_STEPS = [
     id: 'research',
     label: 'Research',
     desc: 'Gathering intelligence from multiple sources',
-    details: 'Searching Reddit discussions, GitHub repositories, Google Trends, arXiv papers, news sites, and Product Hunt for related ideas'
+    details: 'Searching data sources to find relevant information about your idea'
   },
   { 
     id: 'demand_analyst',
@@ -52,6 +63,7 @@ export default function AgentProgress({ idea, onComplete }) {
   const [durations, setDurations]   = useState({});
   const [error, setError]           = useState('');
   const [done, setDone]             = useState(false);
+  const [toolsAssigned, setToolsAssigned] = useState([]); // Store actual tools being used
   const startTimes                  = useRef({});
   const esRef                       = useRef(null);
 
@@ -61,6 +73,7 @@ export default function AgentProgress({ idea, onComplete }) {
     const initial = {};
     AGENT_STEPS.forEach(s => { initial[s.id] = 'pending'; });
     setStepStatus(initial);
+    setToolsAssigned([]); // Reset tools on new idea
 
     const encoded = encodeURIComponent(idea);
     const es      = new EventSource(`${API_BASE}/validate-idea/stream?idea=${encoded}`);
@@ -69,9 +82,14 @@ export default function AgentProgress({ idea, onComplete }) {
     es.onmessage = (e) => {
       try {
         const data = JSON.parse(e.data);
-        const { agent, status, duration_ms } = data;
+        const { agent, status, duration_ms, tools_assigned } = data;
 
         if (status === 'pending') return;
+
+        // Capture tools when classifier completes
+        if (agent === 'classifier' && status === 'complete' && tools_assigned) {
+          setToolsAssigned(tools_assigned);
+        }
 
         if (status === 'complete') {
           if (agent === 'pipeline') {
@@ -234,26 +252,31 @@ export default function AgentProgress({ idea, onComplete }) {
                   </div>
                   
                   {/* Show tools for research step */}
-                  {step.id === 'research' && isRunning && (
+                  {step.id === 'research' && isRunning && toolsAssigned.length > 0 && (
                     <div style={{
                       marginTop: '10px',
                       display: 'flex',
                       flexWrap: 'wrap',
                       gap: '6px',
                     }}>
-                      {['🔍 Web Search', '📰 News', '💬 Reddit', '📈 Trends', '📄 Papers', '💼 GitHub'].map((tool, j) => (
-                        <div key={j} style={{
-                          fontSize: '11px',
-                          padding: '4px 8px',
-                          borderRadius: '4px',
-                          background: 'rgba(6,182,212,0.15)',
-                          border: '1px solid rgba(6,182,212,0.2)',
-                          color: '#06b6d4',
-                          animation: `bounce ${0.6 + j * 0.1}s ease-in-out infinite`,
-                        }}>
-                          {tool}
-                        </div>
-                      ))}
+                      {toolsAssigned.map((toolKey, j) => {
+                        const toolInfo = TOOL_DESCRIPTIONS[toolKey];
+                        if (!toolInfo) return null;
+                        return (
+                          <div key={toolKey} title={toolInfo.desc} style={{
+                            fontSize: '11px',
+                            padding: '4px 8px',
+                            borderRadius: '4px',
+                            background: 'rgba(6,182,212,0.15)',
+                            border: '1px solid rgba(6,182,212,0.2)',
+                            color: '#06b6d4',
+                            animation: `bounce ${0.6 + (j % 6) * 0.1}s ease-in-out infinite`,
+                            cursor: 'help',
+                          }}>
+                            {toolInfo.emoji} {toolInfo.name}
+                          </div>
+                        );
+                      })}
                     </div>
                   )}
                 </div>
