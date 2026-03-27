@@ -191,7 +191,7 @@ function App() {
             { id: 'input',      icon: <MdAddCircle />, label: 'New Validation' },
             { id: 'compare', icon: <MdCompareArrows />, label: 'Compare Ideas' },
           ].map(item => (
-            <button key={item.id} onClick={() => setView(item.id)} style={{
+            <button key={item.id} onClick={() => { setView(item.id); if (isMobile) setSidebarOpen(false); }} style={{
               padding:    '9px 12px',
               borderRadius:'7px',
               background: view === item.id || item.id === 'input' || item.id === 'compare' ? 'rgba(6,182,212,0.1)' : 'transparent',
@@ -234,7 +234,7 @@ function App() {
           ) : (
             <div style={{ overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '4px', flex: 1 }}>
               {pastResults.map((r, i) => (
-                <button key={i} onClick={() => { setCurrentResult(r); setView('result'); }} style={{
+                <button key={i} onClick={() => { setCurrentResult(r); setView('result'); if (isMobile) setSidebarOpen(false); }} style={{
                   padding:    '10px 10px',
                   borderRadius:'7px',
                   background: currentResult === r ? '#0f172a' : 'transparent',
