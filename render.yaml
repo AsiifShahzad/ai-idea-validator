@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: idea-validator-api
+    env: python
+    pythonVersion: 3.11
+    plan: free
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: python backend/run.py
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: PYTHON_VERSION
+        value: 3.11.4
+    # Auto-deploy on push to main
+    autoDeploy: true
+    # Healthcheck to ensure service stays up
+    healthCheckPath: /health
+    healthCheckInterval: 30

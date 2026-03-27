@@ -7,6 +7,10 @@ import os
 import subprocess
 import sys
 
+# Change to project root directory
+os.chdir(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+print(f"📁 Working directory: {os.getcwd()}")
+
 # Get port from environment or use default
 port = os.getenv('PORT', '8000')
 
@@ -16,7 +20,7 @@ try:
     # Run uvicorn with explicit port binding
     subprocess.run([
         sys.executable, '-m', 'uvicorn',
-        'main:app',
+        'backend.main:app',
         '--host', '0.0.0.0',
         '--port', str(port),
         '--workers', '1'

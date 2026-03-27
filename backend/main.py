@@ -224,3 +224,17 @@ async def get_validation_history(type: str = None):
         return {"count": len(history), "results": history}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+# ── Main Entry Point ───────────────────────────────────────────────────────────
+
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.getenv("PORT", "8000"))
+    print(f"\n🚀 Starting Idea Validator API on port {port}...\n")
+    uvicorn.run(
+        "backend.main:app",
+        host="0.0.0.0",
+        port=port,
+        reload=False,
+    )
