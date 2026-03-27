@@ -15,7 +15,12 @@ from backend.tools.news_tool          import search_news
 from backend.tools.product_hunt_tool  import search_product_hunt
 from backend.tools.arxiv_tool         import search_arxiv
 
-nest_asyncio.apply()
+# Apply nest_asyncio only if needed and compatible with current event loop
+try:
+    nest_asyncio.apply()
+except ValueError:
+    # uvloop or other incompatible event loops — skip patching
+    pass
 
 # Only tools listed here can ever be called
 # Adding a tool to TOOLS_MAPPING but not here = safe no-op (logs warning)
