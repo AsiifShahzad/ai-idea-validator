@@ -189,7 +189,7 @@ function App() {
         <nav style={{ display: 'flex', flexDirection: 'column', gap: '4px', paddingTop: '12px', paddingBottom: '28px' }}>
           {[
             { id: 'input',      icon: <MdAddCircle />, label: 'New Validation' },
-            ...(pastResults.length >= 2 ? [{ id: 'compare', icon: <MdCompareArrows />, label: 'Compare Ideas' }] : []),
+            { id: 'compare', icon: <MdCompareArrows />, label: 'Compare Ideas' },
           ].map(item => (
             <button key={item.id} onClick={() => setView(item.id)} style={{
               padding:    '9px 12px',
