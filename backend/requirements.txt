@@ -9,5 +9,5 @@ nest_asyncio
 tavily-python
 requests
 pytrends
-pinecone-client
+pinecone
 newsapi-python
