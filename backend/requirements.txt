@@ -1,9 +1,13 @@
 fastapi
 uvicorn[standard]
+pydantic
 groq
+langsmith
 langgraph
 python-dotenv
+nest_asyncio
 tavily-python
-pytrends
 requests
+pytrends
+pinecone-client
 newsapi-python
