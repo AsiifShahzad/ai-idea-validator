@@ -1,16 +1,17 @@
 import { useState } from 'react';
+import { FaSearch, FaGithub, FaBox, FaRocket, FaFileAlt, FaChartLine, FaReddit, FaNewspaper, FaBriefcase, FaGraduationCap } from 'react-icons/fa';
 
 const TOOL_INFO = {
-  tavily:        { icon: '🔍', label: 'Web Search',      desc: 'Searching the web for recent articles, discussions, and mentions of your idea.' },
-  github:        { icon: '⌥', label: 'GitHub',          desc: 'Exploring GitHub repositories to see how many similar projects already exist.' },
-  npm_trends:    { icon: '📦', label: 'NPM Registry',    desc: 'Checking npm package popularity and developer adoption rates.' },
-  product_hunt:  { icon: '🚀', label: 'Product Hunt',   desc: 'Looking for similar product launches to see community reception and feedback.' },
-  arxiv:         { icon: '📄', label: 'Research Papers', desc: 'Researching academic papers and studies related to your idea.' },
-  google_trends: { icon: '📈', label: 'Search Trends',   desc: 'Checking how search interest in this topic is trending over time.' },
-  reddit:        { icon: '💬', label: 'Reddit',         desc: 'Exploring Reddit discussions to find real community conversations and feedback.' },
-  news:          { icon: '📰', label: 'News Coverage',   desc: 'Finding recent news articles to track media attention and public sentiment.' },
-  crunchbase:    { icon: '💼', label: 'Funding Data',    desc: 'Researching startup funding activity and investment trends in this space.' },
-  google_scholar:{ icon: '🎓', label: 'Scholar',        desc: 'Searching academic citations to measure scholarly interest and research depth.' },
+  tavily:        { Icon: FaSearch, label: 'Web Search',      desc: 'Searching the web for recent articles, discussions, and mentions of your idea.' },
+  github:        { Icon: FaGithub, label: 'GitHub',          desc: 'Exploring GitHub repositories to see how many similar projects already exist.' },
+  npm_trends:    { Icon: FaBox, label: 'NPM Registry',    desc: 'Checking npm package popularity and developer adoption rates.' },
+  product_hunt:  { Icon: FaRocket, label: 'Product Hunt',   desc: 'Looking for similar product launches to see community reception and feedback.' },
+  arxiv:         { Icon: FaFileAlt, label: 'Research Papers', desc: 'Researching academic papers and studies related to your idea.' },
+  google_trends: { Icon: FaChartLine, label: 'Search Trends',   desc: 'Checking how search interest in this topic is trending over time.' },
+  reddit:        { Icon: FaReddit, label: 'Reddit',         desc: 'Exploring Reddit discussions to find real community conversations and feedback.' },
+  news:          { Icon: FaNewspaper, label: 'News Coverage',   desc: 'Finding recent news articles to track media attention and public sentiment.' },
+  crunchbase:    { Icon: FaBriefcase, label: 'Funding Data',    desc: 'Researching startup funding activity and investment trends in this space.' },
+  google_scholar:{ Icon: FaGraduationCap, label: 'Scholar',        desc: 'Searching academic citations to measure scholarly interest and research depth.' },
 };
 
 function ToolBadge({ toolName, isMobile }) {
@@ -49,7 +50,7 @@ function ToolBadge({ toolName, isMobile }) {
           e.currentTarget.style.background = '#1e293b';
         }}
       >
-        <span style={{ fontSize: isMobile ? '13px' : '14px' }}>{info.icon}</span>
+        <info.Icon style={{ fontSize: isMobile ? '13px' : '14px', color: '#3b82f6' }} />
         {!isMobile && info.label}
       </button>
 
@@ -71,8 +72,8 @@ function ToolBadge({ toolName, isMobile }) {
           boxShadow:  '0 8px 24px rgba(0,0,0,0.4)',
           pointerEvents: 'none',
         }}>
-          <div style={{ fontWeight: '700', color: '#f8fafc', marginBottom: '4px', fontFamily: "'DM Mono', monospace" }}>
-            {info.icon} {info.label}
+          <div style={{ fontWeight: '700', color: '#f8fafc', marginBottom: '4px', fontFamily: "'DM Mono', monospace", display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <info.Icon style={{ color: '#3b82f6' }} /> {info.label}
           </div>
           {info.desc}
           {/* Arrow */}
