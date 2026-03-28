@@ -1,0 +1,43 @@
+[33m5de06f8[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m fix: remove backend. prefix from all internal imports
+[33m574109a[m fix: remove backend. prefix from all internal imports
+[33m92a6c2d[m fix: remove backend. prefix from all internal imports
+[33m61e84e6[m Deploy latest backend code
+[33m9ca4baa[m Deploy latest backend code
+[33m45a803a[m Deploy latest backend code
+[33mf3241c5[m Deploy latest backend code
+[33mc202212[m Update: Improve start script and render config with Python 3.11 lock
+[33mc9be4c8[m Fix: backend package import and simplify start script
+[33m6cdaea2[m Fix: Render build isolation - use pre-built wheels without build dependencies
+[33m317ad72[m Fix: Render build - use pre-built wheels and explicit Python 3.11.4
+[33m08b1a3b[m Fix: Render deployment - use bash start script and pin Python 3.11 compatible versions
+[33m84f088b[m Fix: Implement reflection agent improvements & memory system with real embeddings
+[33ma064ea4[m Update comparison view
+[33mfe71716[m Format: add newline at end of classifier.py
+[33mff1370e[m Auto-close mobile sidebar when clicking nav items or history items
+[33m58cdc79[m Fix mobile responsiveness: better spacing and layout for comparison cards and score display
+[33m1ed41a9[m Make Compare Ideas button always appear in active/highlighted state
+[33md099e8e[m Remove duplicate Compare Ideas heading and increase Idea A/B label size by 8px
+[33mf5ddbe5[m Make Compare Ideas button always visible
+[33m0885177[m Fix missing export: replace FiSwords with FiTarget for competition icon
+[33m2855573[m Remove emoji from Worth Exploring verdict title
+[33m739cc61[m Fix Render deployment: correct module paths and add render.yaml configuration
+[33m7da8aee[m Add blue React icons to demand, competition, risk cards and What To Do Next section
+[33md1a184b[m Remove idea type badge from results page
+[33m0f08963[m Remove New Validation button from results, add detailed verdict explanations for end users
+[33m1e9e596[m Dynamic tool badges: show only actual tools assigned by classifier based on idea type
+[33m461c1ae[m Enhance AgentProgress UI with detailed descriptions, tool badges, and animations
+[33m55e4bb3[m Fix event loop conflict: handle running event loop in research_node
+[33me740b2b[m Restrict CORS to only allow requests from verified frontend and localhost
+[33m1ad68f4[m Connect frontend to live Render backend API
+[33mc7ea01a[m Fix Pinecone package name: pinecone-client to pinecone
+[33m908578e[m Add startup scripts and improve error handling with proper port binding
+[33m3796b8d[m Fix nest_asyncio conflict with uvloop - wrap in try-except
+[33mff1e5ac[m Update heading and description colors: cyan accent on Idea, white description
+[33mdb9327c[m Change sidebar headings and disabled button text colors to white
+[33m3992ffe[m Add solid background color to mobile sidebar and menu button
+[33m52c6d46[m Change all subheading text colors to white in frontend components
+[33mc4a7632[m Add all missing backend dependencies to requirements.txt
+[33m6fb94af[m Add fastapi and uvicorn to requirements
+[33me0d9a78[m Merge branch 'main' of https://github.com/AsiifShahzad/IdeaValidator
+[33mad40f09[m Add frontend and backend folders
+[33m53aa9e8[m Initial commit

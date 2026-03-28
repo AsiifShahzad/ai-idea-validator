@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 
-const API_BASE = 'https://ideavalidator-8h1j.onrender.com';
+const API_BASE = 'https://ideavalidator-7nwv.onrender.com';
 
 // Tool descriptions
 const TOOL_DESCRIPTIONS = {
