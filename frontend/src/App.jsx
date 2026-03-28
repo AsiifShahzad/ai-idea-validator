@@ -171,7 +171,7 @@ function App() {
             fontFamily: "'Inter', sans-serif",
             letterSpacing: '-0.02em',
           }}>
-            idea<span style={{ color: '#06b6d4' }}>Validator</span>
+            Idea<span style={{ color: '#06b6d4' }}>Validator</span>
           </div>
           <div style={{
             fontSize:   '13px',
