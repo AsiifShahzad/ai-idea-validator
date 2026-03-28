@@ -1,16 +1,17 @@
 import { useEffect, useState, useRef } from 'react';
+import { FaSearch, FaGithub, FaChartLine, FaFileAlt, FaReddit, FaRocket, FaNewspaper } from 'react-icons/fa';
 
 const API_BASE = 'https://ideavalidator-7nwv.onrender.com';
 
 // Tool descriptions
 const TOOL_DESCRIPTIONS = {
-  tavily: { emoji: '🔍', name: 'Web Search', desc: 'Searching the web for relevant discussions and articles' },
-  github: { emoji: '💼', name: 'GitHub', desc: 'Finding similar repositories and project activity' },
-  google_trends: { emoji: '📈', name: 'Google Trends', desc: 'Analyzing search interest trends over time' },
-  arxiv: { emoji: '📄', name: 'Research Papers', desc: 'Searching academic papers and studies' },
-  reddit: { emoji: '💬', name: 'Reddit', desc: 'Finding community discussions and feedback' },
-  product_hunt: { emoji: '🚀', name: 'Product Hunt', desc: 'Checking similar product launches' },
-  news: { emoji: '📰', name: 'News', desc: 'Finding recent news coverage' },
+  tavily: { Icon: FaSearch, name: 'Web Search', desc: 'Searching the web for relevant discussions and articles' },
+  github: { Icon: FaGithub, name: 'GitHub', desc: 'Finding similar repositories and project activity' },
+  google_trends: { Icon: FaChartLine, name: 'Google Trends', desc: 'Analyzing search interest trends over time' },
+  arxiv: { Icon: FaFileAlt, name: 'Research Papers', desc: 'Searching academic papers and studies' },
+  reddit: { Icon: FaReddit, name: 'Reddit', desc: 'Finding community discussions and feedback' },
+  product_hunt: { Icon: FaRocket, name: 'Product Hunt', desc: 'Checking similar product launches' },
+  news: { Icon: FaNewspaper, name: 'News', desc: 'Finding recent news coverage' },
 };
 
 const AGENT_STEPS = [
@@ -273,7 +274,7 @@ export default function AgentProgress({ idea, onComplete }) {
                             animation: `bounce ${0.6 + (j % 6) * 0.1}s ease-in-out infinite`,
                             cursor: 'help',
                           }}>
-                            {toolInfo.emoji} {toolInfo.name}
+                            <toolInfo.Icon style={{width: '18px', height: '18px', color: '#3b82f6', marginRight: '6px'}} /> {toolInfo.name}
                           </div>
                         );
                       })}
