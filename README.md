@@ -2,7 +2,7 @@
 
 An AI-powered platform that validates business ideas using a multi-agent pipeline backed by real market data.
 
-Live Demo: [your-deployed-url-here](https://your-deployed-url-here)
+Live Demo: https://idea-validator-blue.vercel.app/
 
 ---
 
