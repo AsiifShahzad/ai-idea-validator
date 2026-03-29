@@ -68,11 +68,11 @@ User Idea Input
 | Layer | Tools |
 |-------|-------|
 | Agent Orchestration | LangGraph |
-| LLM | OpenAI GPT-4 |
+| LLM | Groq Api |
 | Web Search Tool | Tavily Search API |
 | API Layer | FastAPI |
 | Output Schema | Pydantic |
-| Environment | Python 3.10+, Docker |
+| Environment | Python 3.10+|
 
 ---
 
